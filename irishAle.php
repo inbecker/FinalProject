@@ -46,7 +46,7 @@ $status="";
                   <a class="dropdown-item" href="americanLager.php">American Lager</a>
                   <a class="dropdown-item" href="belgianAndFrenchAle.php">Belgian and French Ale</a>
                   <a class="dropdown-item" href="irishAle.php">Irish Ale</a>
-                  <a class="dropdown-item" href="englishAle.php">English Ale</a>
+                  <a class="dropdown-item" href="britishAle.php">English Ale</a>
                   <a class="dropdown-item" href="otherStyles.php">Other Styles</a>
                 </div>
               </li>
