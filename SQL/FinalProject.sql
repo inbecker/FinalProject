@@ -68,7 +68,7 @@ insert  into `orderdetails`(`orderID`,`beerID`,`quantityOrdered`) values
 
 CREATE TABLE cart (
     id INT NOt NULL AUTO_INCREMENT,
-    cart_id INT NOT NULL,
+    cart_id varchar(50) NOT NULL,
     beer_id INT NOT NULL,
     quantity INT NOT NULL DEFAULT 1,
     user_id INT NOT NULL,
