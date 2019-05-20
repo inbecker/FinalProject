@@ -66,6 +66,9 @@ include 'config.php';
         <main >
         <h4 class="pl-3">Cart Page</h4>
         <?php
+          if (isset($_GET['error'])) {
+            echo "<p class='text-danger'>Could not delete item from cart</p>";
+          }
             $cart_id = $_GET['cart_id'];
             $query = $link->query("SELECT * FROM `cart` WHERE cart_id = '$cart_id' and user_id =".$_SESSION['id']);
             $total_price = 0;
@@ -88,6 +91,7 @@ include 'config.php';
                             </div>
                             <div class="col-md-6">
                                 <a class="btn btn-success" href="addToCart.php?action=addToCart&beer_id=<?php echo $row["beer_id"]; ?>">Add to cart</a>
+                                <a class="text-danger" href="removeFromCart.php?action=removeFromCart&beer_id=<?php echo $row["beer_id"]; ?>">Remove</a>
                             </div>
                         </div>
                     </div>

@@ -69,7 +69,8 @@ include 'config.php';
 
 if (isset($_GET['order_id'])) {
     $order_id = $_GET['order_id'];
-    $query = $link->query("SELECT * FROM `orderDetails` WHERE  orderId = '$order_id' ");
+    $user_id = $_SESSION['id'];
+    $query = $link->query("SELECT * FROM `orderDetails` WHERE orderId = (SELECT orderID FROM `orders` where orderID = '$order_id' and customerID = '$user_id')");
     if($query->num_rows > 0){ 
         $order_details = array();
         $total_price = 0;
