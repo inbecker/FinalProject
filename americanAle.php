@@ -41,7 +41,7 @@ include 'config.php';
                   <a class="dropdown-item" href="americanLager.php">American Lager</a>
                   <a class="dropdown-item" href="belgianAndFrenchAle.php">Belgian and French Ale</a>
                   <a class="dropdown-item" href="irishAle.php">Irish Ale</a>
-                  <a class="dropdown-item" href="britshAle.php">English Ale</a>
+                  <a class="dropdown-item" href="britishAle.php">English Ale</a>
                   <a class="dropdown-item" href="otherStyles.php">Other Styles</a>
                 </div>
               </li>
@@ -64,8 +64,8 @@ include 'config.php';
 
   
 	<main>
-        <p align="center" class="main">"Thank you for shopping at BEER HALL. Remember you have a 25% discount on your first order!"</p>
-    
+      <?php include 'includes/check_add_to_cart.php'; ?>
+      <p align="center" class="main">"Thank you for shopping at BEER HALL. Remember you have a 25% discount on your first order!"</p>
 		<br>
     </main>
 
@@ -85,7 +85,7 @@ include 'config.php';
                             <p class="lead"><?php echo '$'.$row["price"].' USD'; ?></p>
                         </div>
                         <div class="col-md-6">
-                            <a class="btn btn-success" href="cartAction.php?action=addToCart&id=<?php echo $row["beerID"]; ?>">Add to cart</a>
+                            <a class="btn btn-success" href="addToCart.php?action=addToCart&beer_id=<?php echo $row["beerID"]; ?>">Add to cart</a>
                         </div>
                     </div>
                 </div>

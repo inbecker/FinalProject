@@ -69,6 +69,7 @@ $status="";
 
   
 	<main>
+        <?php include 'includes/check_add_to_cart.php'; ?>
         <p align="center" class="main">"Thank you for shopping at BEER HALL. Remember you have a 25% discount on your first order!"</p>
     
 		<br>
@@ -90,8 +91,7 @@ $status="";
                             <p class="lead"><?php echo '$'.$row["price"].' USD'; ?></p>
                         </div>
                         <div class="col-md-6">
-                            <p><a href="addToCart.php?id=<?php echo $row["beerID"]; ?>" class="btn btn-primary" role="button">Add to Cart</a></p>
-                                 
+                            <a class="btn btn-success" href="addToCart.php?action=addToCart&beer_id=<?php echo $row["beerID"]; ?>">Add to cart</a>                                 
                         </div>
                     </div>
                 </div>
@@ -100,49 +100,6 @@ $status="";
         <hr>
         <?php } }else{ ?>
         <p>Product(s) not found.....</p>
-        <?php } ?>
- 
-<?php 
-  
-    if(isset($_GET['action']) && $_GET['action']=="add"){ 
-          
-        $code=intval($_GET['beerID']); 
-          
-        if(isset($_SESSION["shopping_cart"][$code])){ 
-              
-            $_SESSION["shopping_cart"][$code]['quantity']++; 
-              
-        }else{ 
-              
-            $sql_s="SELECT * FROM beer 
-                WHERE beerID={$code}"; 
-            $query_s=mysql_query($sql_s); 
-            if(mysql_num_rows($query_s)!=0){ 
-                $row_s=mysql_fetch_array($query_s); 
-                  
-                $_SESSION["shopping_cart"][$row_s['beerID']]=array( 
-                        "quantity" => 1, 
-                        "price" => $row_s['price'] 
-                    ); 
-                  
-                  
-            }else{ 
-                  
-                $message="This product id it's invalid!"; 
-                  
-            } 
-              
-        } 
-          
-    } 
-  
-?>
-
-        
-        
-        
-        
-        
-
-</body>
+        <?php } ?>        
+    </body>
 </html>

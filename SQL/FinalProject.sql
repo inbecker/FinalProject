@@ -35,7 +35,7 @@ CREATE TABLE `orders` (
   `customerID` int(11) NOT NULL,
   PRIMARY KEY (`orderID`),
   KEY `customerID` (`customerID`),
-  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customerID`) REFERENCES `customers` (`customerID`)
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customerID`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `orders` */
@@ -53,7 +53,7 @@ DROP TABLE IF EXISTS `orderdetails`;
 
 CREATE TABLE `orderdetails` (
   `orderID` int(11) NOT NULL,
-  `beerID` varchar(15) NOT NULL,
+  `beerID` int NOT NULL,
   `quantityOrdered` int(11) NOT NULL,
   PRIMARY KEY (`orderID`,`beerID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -63,6 +63,19 @@ insert  into `orderdetails`(`orderID`,`beerID`,`quantityOrdered`) values
 (1,'181',3),
 (2,'811',3),
 (3,'901',2);
+
+/*Cart Table*/
+
+CREATE TABLE cart (
+    id INT NOt NULL AUTO_INCREMENT,
+    cart_id INT NOT NULL,
+    beer_id INT NOT NULL,
+    quantity INT NOT NULL DEFAULT 1,
+    user_id INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*BEER INFORMATION*/
 DROP TABLE IF EXISTS `beerCategory`;
@@ -523,7 +536,7 @@ An outstanding hop from New Zealand, Nelson Sauvin, is generously used throughou
   ADD CONSTRAINT `orderdetails_ibfk_1` FOREIGN KEY (`orderID`) REFERENCES `orders` (`orderID`);
 
   ALTER TABLE orderDetails
-  ADD CONSTRAINT `orderdetails_ibfk_2` FOREIGN KEY (`beerID`) REFERENCES `beerID` (`beerID`);
+  ADD CONSTRAINT `orderdetails_ibfk_2` FOREIGN KEY (`beerID`) REFERENCES `beer` (`beerID`);
   
   DROP TABLE IF EXISTS `cart_items`;
   

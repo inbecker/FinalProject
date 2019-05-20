@@ -59,6 +59,16 @@ session_start();
         </nav>
         <br>
 <main>
+    <?php 
+        if (isset($_GET['cart_id']) && $_GET['cart_id'] == 'false') {
+          echo '<div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
+                Cart does not exist!
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>';
+        }
+    ?>
         <p align="center" class="main">"Thank you for shopping at BEER HALL. Remember you have a 25% discount on your first order!"</p>
     
 		<br>

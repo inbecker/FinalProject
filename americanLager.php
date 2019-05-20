@@ -64,6 +64,7 @@ include 'config.php';
 
   
 	<main>
+        <?php include 'includes/check_add_to_cart.php'; ?>
         <p align="center" class="main">"Thank you for shopping at BEER HALL. Remember you have a 25% discount on your first order!"</p>
     
 		<br>
@@ -85,7 +86,7 @@ include 'config.php';
                             <p class="lead"><?php echo '$'.$row["price"].' USD'; ?></p>
                         </div>
                         <div class="col-md-6">
-                            <a class="btn btn-success" href="cartAction.php?action=addToCart&id=<?php echo $row["beerID"]; ?>">Add to cart</a>
+                          <a class="btn btn-success" href="addToCart.php?action=addToCart&beer_id=<?php echo $row["beerID"]; ?>">Add to cart</a>
                         </div>
                     </div>
                 </div>
