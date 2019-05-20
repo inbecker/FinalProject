@@ -63,43 +63,72 @@ include 'config.php';
         <br />
 
   
-        <main >
-        <h4 class="pl-3">Cart Page</h4>
-        <?php
-            $cart_id = $_GET['cart_id'];
-            $query = $link->query("SELECT * FROM `cart` WHERE cart_id = '$cart_id' and user_id =".$_SESSION['id']);
-            $total_price = 0;
-            if($query->num_rows > 0){ 
-                while($row = $query->fetch_assoc()){
-                  $beer_name_query = $link->query("Select beerName from beer where beerID =". $row["beer_id"]);
-                  $beer_name = $beer_name_query->fetch_assoc()['beerName'];
-                  $price_query = $link->query("Select price from beerStyle where styleID = (Select styleID from beer where beerID =". $row["beer_id"]. ")");
-                  $beer_price = $price_query->fetch_assoc()['price'];
-                  $total_price = $total_price + ($beer_price * $row['quantity']);
-            ?>
-            <div class="item col-lg-4">
-                <div class="thumbnail">
-                    <div class="caption">
-                        <h4 class="list-group-item-heading">Beer name: <?php echo $beer_name; ?></h4>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <p class="lead">Price/unit: <?php echo '$'.$beer_price; ?></p>
-                                <p class="lead">Quantity: <?php echo $row["quantity"]; ?></p>
-                            </div>
-                            <div class="col-md-6">
-                                <a class="btn btn-success" href="addToCart.php?action=addToCart&beer_id=<?php echo $row["beer_id"]; ?>">Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <main class="ml-3">
+
+<?php
+
+if (isset($_GET['order_id'])) {
+    $order_id = $_GET['order_id'];
+    $query = $link->query("SELECT * FROM `orderDetails` WHERE  orderId = '$order_id' ");
+    if($query->num_rows > 0){ 
+        $order_details = array();
+        $total_price = 0;
+        $i = 0;
+        while($row = $query->fetch_assoc()){
+            $beer_id = $row["beerID"];
+
+            // create array of order details
+            $price_query = $link->query("Select price from beerStyle where styleID = (Select styleID from beer where beerID =". $beer_id. ")");
+            $beer_price = $price_query->fetch_assoc()['price'];
+            $beer_query = $link->query("Select beerName, description from beer where beerID =". $beer_id);
+            $beer_name = $beer_query->fetch_assoc()['beerName'];
+            $beer_query = $link->query("Select beerName, description from beer where beerID =". $beer_id);
+            $beer_description = $beer_query->fetch_assoc()['description'];
+            $order_details[$i]->beer['name'] = $beer_name;
+            $order_details[$i]->beer['description'] = $beer_description;
+            $order_details[$i]->beer['price'] = $beer_price;
+            $order_details[$i]->beer['quantity'] = $row['quantityOrdered'];
+            $total_price = $total_price + ($beer_price * $row['quantityOrdered']);
+            $i = $i + 1;
+
+            
+      }
+      echo "<h5>Your order number is ". $order_id. "</h5>"; ?>
+        <h5>Order Details</h5>
+        <div class="row">
+            <div class="col-6">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                        <th scope="col">Beer name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price/Unit</th>
+                        <th scope="col">Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php for ($x = 0; $x < count($order_details); $x++) { ?>
+                            <tr>
+                                <th scope="row"> <?php echo $order_details[$x]->beer['name'] ?> </th>
+                                <td> <?php echo substr($order_details[$x]->beer['description'],0,50).'...' ?> </td>
+                                <td> <?php echo $order_details[$x]->beer['price'] ?> </td>
+                                <td> <?php echo $order_details[$x]->beer['quantity'] ?> </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+                <p>Total price: $<?php echo $total_price ?> </p>
+                <h4 class="text-success">Order created, you can checkout by making payment</h4>
+                <a href="/main.php">Go to home page</a>
             </div>
-            <hr>
-            <?php }
-                echo "<span class='ml-3'>Total Price: $". $total_price. "  <a class='pl-4' href='/processOrder.php?checkout=true&cart_id=".$_GET['cart_id']."'>Checkout</a></span>";
-            }else{
-                header("location: main.php?cart_id=false");
-            ?>
-            <?php } ?>
+        </div>
+    <?php } else {
+        header("location: main.php?order_id=false");
+    }
+} else {
+    header("location: main.php");
+}
+?>
         </main>
     </body>
 </html>
